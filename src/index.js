@@ -1,11 +1,9 @@
 import _               from 'lodash';
-import fs              from 'fs';
-import yaml            from 'js-yaml';
 import path, {resolve} from 'path';
 import isThere         from 'is-there';
 
 export default function(url, prev) {
-  if (!isYAMLfile(url)) {
+  if (!isJSfile(url)) {
     return null;
   }
 
@@ -23,18 +21,22 @@ export default function(url, prev) {
     return new Error(`Unable to find "${url}" from the following path(s): ${paths.join(', ')}. Check includePaths.`);
   }
 
+  // Prevent file from being cached by Node's `require` on continuous builds.
+  // https://github.com/Updater/node-sass-json-importer/issues/21
+  delete require.cache[require.resolve(file)];
+
   try {
     return {
-      contents: transformJSONtoSass(yaml.safeLoad(fs.readFileSync(require.resolve(file), 'utf8')))
+      contents: transformJSONtoSass(require(file))
     };
   } catch(e) {
-    return new Error(`node-sass-yaml-importer: Error transforming YAML to SASS. Check if your YAML parses correctly. ${e}`);
+    return new Error(`node-sass-js-importer: Error transforming JavaScript to SASS. Check if you exported a valid JavaScript object. ${e}`);
   }
 
 }
 
-export function isYAMLfile(url) {
-  return /\.ya?ml$/.test(url);
+export function isJSfile(url) {
+  return /\.js$/.test(url);
 }
 
 export function transformJSONtoSass(json) {

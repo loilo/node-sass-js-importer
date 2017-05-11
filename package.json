@@ -1,22 +1,22 @@
 {
-  "name": "node-sass-yaml-importer",
-  "version": "0.2.0",
-  "description": "Allows importing YAML in sass files parsed by node-sass.",
-  "main": "dist/node-sass-yaml-importer.js",
+  "name": "node-sass-js-importer",
+  "version": "0.1.0",
+  "description": "Allows importing CommonJS modules in Sass files parsed by node-sass.",
+  "main": "dist/node-sass-js-importer.js",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Loilo/node-sass-yaml-importer.git"
+    "url": "https://github.com/Loilo/node-sass-js-importer.git"
   },
   "keywords": [
     "sass",
     "node-sass",
-    "importer",
-    "yaml"
+    "commonjs",
+    "importer"
   ],
   "scripts": {
     "test": "mocha --compilers js:babel/register",
-    "compile": "mkdirp dist && babel -o dist/node-sass-yaml-importer.js src/index.js",
+    "compile": "mkdirp dist && babel -o dist/node-sass-js-importer.js src/index.js",
     "prepublish": "npm run compile"
   },
   "peerDependencies": {
@@ -24,7 +24,6 @@
   },
   "dependencies": {
     "is-there": "^4.0.0",
-    "js-yaml": "^3.8.4",
     "lodash": "^3.10.1"
   },
   "devDependencies": {

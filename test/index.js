@@ -1,6 +1,6 @@
 /* eslint-env mocha */
-import yamlImporter, {
-  isYAMLfile
+import jsImporter, {
+  isJSfile
 }                   from '../src/index';
 import sass         from 'node-sass';
 import {expect}     from 'chai';
@@ -13,7 +13,7 @@ describe('Import type test', function() {
   it('imports strings', function() {
     let result = sass.renderSync({
       file: './test/fixtures/strings/style.scss',
-      importer: yamlImporter
+      importer: jsImporter
     });
 
     expect(result.css.toString()).to.eql(EXPECTATION);
@@ -22,7 +22,7 @@ describe('Import type test', function() {
   it('imports lists', function() {
     let result = sass.renderSync({
       file: './test/fixtures/lists/style.scss',
-      importer: yamlImporter
+      importer: jsImporter
     });
 
     expect(result.css.toString()).to.eql(EXPECTATION);
@@ -31,7 +31,7 @@ describe('Import type test', function() {
   it('imports maps', function() {
     let result = sass.renderSync({
       file: './test/fixtures/maps/style.scss',
-      importer: yamlImporter
+      importer: jsImporter
     });
 
     expect(result.css.toString()).to.eql(EXPECTATION);
@@ -41,7 +41,7 @@ describe('Import type test', function() {
     let result = sass.renderSync({
       file: './test/fixtures/include-paths/style.scss',
       includePaths: ['./test/fixtures/include-paths/variables'],
-      importer: yamlImporter
+      importer: jsImporter
     });
 
     expect(result.css.toString()).to.eql(EXPECTATION);
@@ -51,7 +51,7 @@ describe('Import type test', function() {
     let result = sass.renderSync({
       file: './test/fixtures/include-paths/style.scss',
       includePaths: ['./test/fixtures/include-paths/variables', './some/other/path/'],
-      importer: yamlImporter
+      importer: jsImporter
     });
 
     expect(result.css.toString()).to.eql(EXPECTATION);
@@ -62,12 +62,12 @@ describe('Import type test', function() {
       sass.renderSync({
         file: './test/fixtures/include-paths/style.scss',
         includePaths: ['./test/fixtures/include-paths/foo'],
-        importer: yamlImporter
+        importer: jsImporter
       });
     }
 
     expect(render).to.throw(
-      'Unable to find "variables.yml" from the following path(s): ' +
+      'Unable to find "variables.js" from the following path(s): ' +
       `${resolve(process.cwd(), 'test/fixtures/include-paths')}, ${process.cwd()}, ./test/fixtures/include-paths/foo. ` +
       'Check includePaths.'
     );
@@ -76,7 +76,7 @@ describe('Import type test', function() {
   it('ignores non-json imports', function() {
     let result = sass.renderSync({
       file: './test/fixtures/non-json/style.scss',
-      importer: yamlImporter
+      importer: jsImporter
     });
 
     expect(result.css.toString()).to.eql(EXPECTATION);
@@ -94,7 +94,6 @@ describe('Import type test', function() {
 
   // TODO: Added to verify named exports + CommonJS default export hack (see index.js).
   it('provides named exports of internal methods', function() {
-    expect(isYAMLfile('import.yml')).to.be.true;
-    expect(isYAMLfile('import.yaml')).to.be.true;
+    expect(isJSfile('import.js')).to.be.true;
   });
 });
