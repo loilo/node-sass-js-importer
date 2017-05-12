@@ -1,6 +1,6 @@
 {
   "name": "node-sass-js-importer",
-  "version": "0.2.0",
+  "version": "3.0.2",
   "description": "Allows importing CommonJS modules in Sass files parsed by node-sass.",
   "main": "dist/node-sass-js-importer.js",
   "license": "MIT",
