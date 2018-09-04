@@ -27,9 +27,9 @@
     "is-plain-object": "^2.0.4"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
     "chai": "^3.2.0",
     "mkdirp": "^0.5.1",
     "mocha": "^5.2.0",
