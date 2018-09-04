@@ -1,12 +1,10 @@
 /* eslint-env mocha */
-import jsImporter, {
-  isJSfile
-}                   from '../src/index';
-import sass         from 'node-sass';
-import {expect}     from 'chai';
-import {resolve}    from 'path';
+const jsImporter = require('../dist/node-sass-js-importer')
+const { isJSfile } = jsImporter
+const sass = require('node-sass')
+const { expect } = require('chai');
+const { resolve } = require('path');
 
-const requiredImporter = require('../src/index');
 const EXPECTATION = 'body {\n  color: #c33; }\n';
 
 describe('Import type test', function() {
@@ -86,7 +84,7 @@ describe('Import type test', function() {
   it('provides the default export when using node require to import', function() {
     let result = sass.renderSync({
       file: './test/fixtures/strings/style.scss',
-      importer: requiredImporter
+      importer: jsImporter
     });
 
     expect(result.css.toString()).to.eql(EXPECTATION);

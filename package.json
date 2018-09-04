@@ -2,35 +2,40 @@
   "name": "node-sass-js-importer",
   "version": "3.0.2",
   "description": "Allows importing CommonJS modules in Sass files parsed by node-sass.",
-  "main": "dist/node-sass-js-importer.js",
-  "license": "MIT",
+  "keywords": [
+    "commonjs",
+    "importer",
+    "node-sass",
+    "sass"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Loilo/node-sass-js-importer.git"
   },
-  "keywords": [
-    "sass",
-    "node-sass",
-    "commonjs",
-    "importer"
+  "license": "MIT",
+  "files": [
+    "dist"
   ],
+  "main": "dist/node-sass-js-importer.js",
   "scripts": {
-    "test": "mocha --compilers js:babel/register",
     "compile": "mkdirp dist && babel -o dist/node-sass-js-importer.js src/index.js",
-    "prepublish": "npm run compile"
-  },
-  "peerDependencies": {
-    "node-sass": ">=3.5.3"
+    "prepublish": "npm run compile",
+    "pretest": "npm run compile",
+    "test": "mocha"
   },
   "dependencies": {
-    "is-there": "^4.0.0",
-    "lodash": "^3.10.1"
+    "is-plain-object": "^2.0.4"
   },
   "devDependencies": {
-    "babel": "^5.8.23",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
     "chai": "^3.2.0",
     "mkdirp": "^0.5.1",
-    "mocha": "^2.3.2",
+    "mocha": "^5.2.0",
+    "node-sass": ">=3.5.3"
+  },
+  "peerDependencies": {
     "node-sass": ">=3.5.3"
   }
 }
