@@ -1,6 +1,6 @@
-import _               from 'lodash';
-import path, {resolve} from 'path';
-import isThere         from 'is-there';
+import isPlainObject from 'is-plain-object';
+import { existsSync } from 'fs';
+import path, { resolve } from 'path';
 
 export default function(url, prev) {
   if (!isJSfile(url)) {
@@ -14,7 +14,7 @@ export default function(url, prev) {
 
   let file = paths
     .map(path => resolve(path, url))
-    .filter(isThere)
+    .filter(existsSync)
     .pop();
 
   if (!file) {
@@ -46,9 +46,9 @@ export function transformJSONtoSass(json) {
 }
 
 export function parseValue(value) {
-  if (_.isArray(value)) {
+  if (Array.isArray(value)) {
     return parseList(value);
-  } else if (_.isPlainObject(value)) {
+  } else if (isPlainObject(value)) {
     return parseMap(value);
   } else {
     return value;

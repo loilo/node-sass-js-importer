@@ -62,7 +62,7 @@ export default {
 };
 ```
 
-#### Webpack v2
+#### Webpack v2 and upwards
 
 ```javascript
 import jsImporter from 'node-sass-js-importer';
