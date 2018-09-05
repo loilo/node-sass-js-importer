@@ -19,7 +19,7 @@
   "main": "dist/node-sass-js-importer.js",
   "scripts": {
     "compile": "mkdirp dist && babel -o dist/node-sass-js-importer.js src/index.js",
-    "prepublish": "npm run compile",
+    "prepublishOnly": "npm run compile",
     "pretest": "npm run compile",
     "test": "mocha"
   },
@@ -27,9 +27,9 @@
     "is-plain-object": "^2.0.4"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
     "chai": "^3.2.0",
     "mkdirp": "^0.5.1",
     "mocha": "^5.2.0",
