@@ -1,3 +1,5 @@
+> **DEPRECATION NOTICE:** This package has been deprecated and is not maintained anymore. Use [`node-sass-json-importer`](https://github.com/pmowrer/node-sass-json-importer) instead, it allows for importing `.js` files as well
+
 # node-sass-js-importer
 
 JavaScript object literal importer for [node-sass](https://github.com/sass/node-sass). Allows `@import`ing CommonJS modules (`.js` files) in Sass files parsed by `node-sass`.
