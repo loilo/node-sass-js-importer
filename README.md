@@ -1,45 +1,37 @@
-> **DEPRECATION NOTICE:** This package has been deprecated and is not maintained anymore. Use [`node-sass-json-importer`](https://github.com/pmowrer/node-sass-json-importer) instead, it allows for importing `.js` files as well
-
 # node-sass-js-importer
 
-JavaScript object literal importer for [node-sass](https://github.com/sass/node-sass). Allows `@import`ing CommonJS modules (`.js` files) in Sass files parsed by `node-sass`.
+[![Tests](https://badgen.net/github/checks/loilo/node-sass-js-importer/master)](https://github.com/loilo/node-sass-js-importer/actions)
+[![Version on npm](https://badgen.net/npm/v/node-sass-js-importer)](https://www.npmjs.com/package/node-sass-js-importer)
+
+JavaScript data importer for [sass](https://github.com/sass/sass) (originally for the now deprecated [node-sass](https://github.com/sass/node-sass), hence the package name).
+
+This allows `@import`ing/`@use`ing `.js`/`.mjs`/`.cjs` files in Sass files parsed by `sass`.
 
 This is a fork of the [node-sass-json-importer](https://github.com/Updater/node-sass-json-importer) repository, adjusted for usage with JavaScript files.
 
-[![npm](https://img.shields.io/npm/v/node-sass-js-importer.svg)](https://www.npmjs.com/package/node-sass-js-importer)
-[![build status](https://travis-ci.org/Loilo/node-sass-js-importer.svg?branch=master)](https://travis-ci.org/Loilo/node-sass-js-importer)
+## Setup
 
-## Usage
-Note that this packages expects you to export JavaScript object literals from your imported files.
+### [sass](https://github.com/sass/sass)
 
-### [node-sass](https://github.com/sass/node-sass)
-This module hooks into [node-sass's importer api](https://github.com/sass/node-sass#importer--v200---experimental).
+This module hooks into [sass' importer api](https://sass-lang.com/documentation/js-api#importer).
 
 ```javascript
-var sass = require('node-sass');
-var jsImporter = require('node-sass-js-importer');
+const sass = require('sass')
+const { jsImporter } = require('node-sass-js-importer')
 
 // Example 1
 sass.render({
   file: scss_filename,
   importer: jsImporter,
-  [, options..]
-}, function(err, result) { /*...*/ });
+  // ...options
+}, (err, result) => { /*...*/ })
 
 // Example 2
-var result = sass.renderSync({
+const result = sass.renderSync({
   data: scss_content
   importer: [jsImporter, someOtherImporter]
-  [, options..]
-});
-```
-
-### [node-sass](https://github.com/sass/node-sass) command-line interface
-
-To run this using node-sass CLI, point `--importer` to your installed JavaScript importer, for example: 
-
-```sh
-./node_modules/.bin/node-sass --importer node_modules/node-sass-js-importer/dist/node-sass-js-importer.js --recursive ./src --output ./dist
+  // ...options
+})
 ```
 
 ### Webpack / [sass-loader](https://github.com/jtangelder/sass-loader)
@@ -47,27 +39,29 @@ To run this using node-sass CLI, point `--importer` to your installed JavaScript
 #### Webpack v1
 
 ```javascript
-import jsImporter from 'node-sass-js-importer';
+import { jsImporter } from 'node-sass-js-importer'
 
 // Webpack config
 export default {
   module: {
-    loaders: [{
-      test: /\.scss$/,
-      loaders: ["style", "css", "sass"]
-    }],
+    loaders: [
+      {
+        test: /\.scss$/,
+        loaders: ['style', 'css', 'sass']
+      }
+    ]
   },
-  // Apply the JavaScript importer via sass-loader's options.
+  // Apply the JS importer via sass-loader's options.
   sassLoader: {
     importer: jsImporter
   }
-};
+}
 ```
 
 #### Webpack v2 and upwards
 
 ```javascript
-import jsImporter from 'node-sass-js-importer';
+import { jsImporter } from 'node-sass-js-importer'
 
 // Webpack config
 export default {
@@ -84,7 +78,7 @@ export default {
         },
         {
           loader: 'sass-loader',
-          // Apply the JavaScript importer via sass-loader's options.
+          // Apply the JS importer via sass-loader's options.
           options: {
             importer: jsImporter,
           },
@@ -92,29 +86,95 @@ export default {
       ],
     ],
   },
-};
-```
-
-## Importing strings
-Since JavaScript objects don't map directly to SASS's data types, a common source of confusion is how to handle strings. While [SASS allows strings to be both quoted and unqouted](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings), strings containing spaces, commas and/or other special characters have to be wrapped in quotes. In terms of JavaScript, this means the string has to be double quoted:
-
-##### Incorrect
-```javascript
-module.exports = {
-  description: "A sentence with spaces."
 }
 ```
 
-##### Correct
-```javascript
-module.exports = {
-  description: "'A sentence with spaces.'"
+## Usage
+
+Given the following `colors.mjs` file:
+
+```js
+export default {
+  primary: 'blue',
+  secondary: 'red'
 }
 ```
 
-See discussion here for more:
+The importer allows your Sass file in the same folder to do this:
 
-https://github.com/Updater/node-sass-json-importer/pull/5
+```scss
+@import 'colors.mjs';
 
-## Thanks to
-This module is based on the [node-sass-json-importer](https://github.com/Updater/node-sass-json-importer) repository, they did all the work.
+.some-class {
+  background: $primary;
+}
+```
+
+Note that [`@import` is somewhat deprecated](https://sass-lang.com/documentation/at-rules/import) and you should use `@use` instead:
+
+```scss
+@use 'colors.mjs';
+
+.some-class {
+  // Data is automatically namespaced:
+  background: colors.$primary;
+}
+```
+
+To achieve the same behavior as with `@import`, you can [change the namespace to `*`](https://sass-lang.com/documentation/at-rules/use#choosing-a-namespace):
+
+```scss
+@use 'colors.mjs' as *;
+
+.some-class {
+  // Colors are no longer namespaced:
+  background: $primary;
+}
+```
+
+### Importing strings
+
+As JavaScript values don't map directly to Sass's data types, a common source of confusion is how to handle strings. While [Sass allows strings to be both quoted and unqouted](https://sass-lang.com/documentation/values/strings#unquoted), strings containing spaces, commas and/or other special characters have to be wrapped in quotes.
+
+The importer will automatically add quotes around all strings that are not valid unquoted strings or hex colors (and that are not already quoted, of course):
+
+<!-- prettier-ignore -->
+Input | Output | Explanation
+-|-|-
+`{ color: 'red' }` | `$color: red;` | Valid unquoted string
+`{ color: '#f00' }` | `$color: #f00;` | Valid hex color
+`{ color: "'red'" }` | `$color: "red";` | Explicitly quoted string
+`{ color: "really red" }` | `$color: "really red";` | Valid unquoted string
+
+### Module Formats
+
+The importer supports both CommonJS and ES modules through explicit file extensions (`.cjs`, `.mjs`). If you're using a `.js` extension, the importer will use the same default as the node runtime does (i.e. depending on your `package.json`'s `module` field).
+
+### Map Keys
+
+Map keys are always quoted by the importer:
+
+```js
+// colors.mjs
+export default {
+  colors: {
+    red: '#f00'
+  }
+}
+```
+
+```scss
+@use 'colors.mjs' as *;
+
+:root {
+  // This does not work:
+  color: map-get($colors, red);
+
+  // Do this instead:
+  color: map-get($colors, 'red');
+}
+```
+
+## Credit
+
+The initial implementation of this importer was based on the [node-sass-json-importer](https://github.com/Updater/node-sass-json-importer) package.

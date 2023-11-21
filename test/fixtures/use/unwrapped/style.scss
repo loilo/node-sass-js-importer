@@ -1,4 +1,4 @@
-@import 'variables.cjs';
+@use 'variables.cjs' as *;
 
 body {
   color: $color-red;

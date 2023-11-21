@@ -1,0 +1,5 @@
+@use 'variables.cjs' as vars;
+
+body {
+  color: vars.$color-red;
+}

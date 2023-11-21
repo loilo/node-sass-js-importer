@@ -1,7 +1,8 @@
 {
   "name": "node-sass-js-importer",
-  "version": "4.0.3",
+  "version": "5.0.0",
   "description": "Allows importing CommonJS modules in Sass files parsed by node-sass.",
+  "type": "module",
   "keywords": [
     "commonjs",
     "importer",
@@ -14,31 +15,26 @@
   },
   "license": "MIT",
   "files": [
-    "dist"
+    "src"
   ],
-  "main": "dist/node-sass-js-importer.js",
+  "exports": {
+    "import": "./src/importer.module.js",
+    "require": "./src/importer.commonjs.cjs"
+  },
+  "main": "./src/importer.commonjs.cjs",
+  "module": "./src/importer.module.js",
   "scripts": {
-    "compile": "mkdirp dist && babel -o dist/node-sass-js-importer.js src/index.js",
-    "prepublishOnly": "npm run compile",
-    "pretest": "npm run compile",
-    "test": "mocha"
+    "test": "vitest run"
   },
   "dependencies": {
-    "is-plain-object": "^2.0.4"
+    "execa": "^5.1.1",
+    "is-plain-object": "^5.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "chai": "^4.1.2",
-    "mkdirp": "^0.5.1",
-    "mocha": "^5.2.0",
-    "node-sass": ">=3.5.3"
-  },
-  "peerDependencies": {
-    "node-sass": ">=3.5.3"
+    "sass": "^1.69.5",
+    "vitest": "^0.34.6"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=16.0.0"
   }
 }
