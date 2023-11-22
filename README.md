@@ -145,7 +145,7 @@ Input | Output | Explanation
 `{ color: 'red' }` | `$color: red;` | Valid unquoted string
 `{ color: '#f00' }` | `$color: #f00;` | Valid hex color
 `{ color: "'red'" }` | `$color: "red";` | Explicitly quoted string
-`{ color: "really red" }` | `$color: "really red";` | Valid unquoted string
+`{ color: "really red" }` | `$color: "really red";` | Invalid (multi-word) unquoted string
 
 ### Module Formats
 
