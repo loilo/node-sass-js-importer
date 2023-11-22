@@ -1,7 +1,7 @@
 # node-sass-js-importer
 
-[![Tests](https://badgen.net/github/checks/loilo/node-sass-js-importer/master)](https://github.com/loilo/node-sass-js-importer/actions)
-[![Version on npm](https://badgen.net/npm/v/node-sass-js-importer)](https://www.npmjs.com/package/node-sass-js-importer)
+[![Tests](https://img.shields.io/github/actions/workflow/status/loilo/node-sass-js-importer/test.yml?label=tests)](https://github.com/loilo/node-sass-js-importer/actions)
+[![Version on npm](https://img.shields.io/npm/v/node-sass-js-importer)](https://www.npmjs.com/package/node-sass-js-importer)
 
 JavaScript data importer for [sass](https://github.com/sass/sass) (originally for the now deprecated [node-sass](https://github.com/sass/node-sass), hence the package name).
 
