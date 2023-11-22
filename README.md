@@ -15,6 +15,7 @@ This is a fork of the [node-sass-json-importer](https://github.com/Updater/node-
 
 This module hooks into [sass' importer api](https://sass-lang.com/documentation/js-api#importer).
 
+<!-- prettier-ignore -->
 ```javascript
 const sass = require('sass')
 const { jsImporter } = require('node-sass-js-importer')
@@ -28,7 +29,7 @@ sass.render({
 
 // Example 2
 const result = sass.renderSync({
-  data: scss_content
+  data: scss_content,
   importer: [jsImporter, someOtherImporter]
   // ...options
 })
