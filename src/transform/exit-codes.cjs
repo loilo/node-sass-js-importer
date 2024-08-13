@@ -1,0 +1,8 @@
+module.exports = /** @type {const} */ ({
+  INVALID_PATH: 10,
+  FILE_NOT_FOUND: 11,
+  IMPORT_FAILED: 12,
+  NO_DEFAULT_EXPORT: 13,
+  DATA_SERIALIZATION_FAILED: 14,
+  UNKNOWN: 50,
+})
