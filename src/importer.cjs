@@ -4,7 +4,7 @@
  */
 
 const path = require('path')
-const url = require('url')
+const nodeUrl = require('url')
 const childProcess = require('child_process')
 
 const { isPromiseLike, isPlainObject } = require('./util/helpers.cjs')
@@ -46,7 +46,7 @@ function createJsImporter({ resolve }) {
   const makeUrl = absoluteFilePath => {
     if (absoluteFilePath === null) return null
 
-    return url.pathToFileURL(absoluteFilePath)
+    return nodeUrl.pathToFileURL(absoluteFilePath)
   }
 
   return {
@@ -57,7 +57,7 @@ function createJsImporter({ resolve }) {
       const absoluteFilePath = resolve.call(
         this,
         url,
-        context.containingUrl.pathname,
+        nodeUrl.fileURLToPath(context.containingUrl),
       )
       if (isPromiseLike(absoluteFilePath)) {
         return absoluteFilePath.then(makeUrl)
@@ -66,7 +66,7 @@ function createJsImporter({ resolve }) {
       }
     },
     load(url) {
-      const absoluteFilePath = url.pathname
+      const absoluteFilePath = nodeUrl.fileURLToPath(url)
 
       /**
        * @type {ChildProcess.SpawnSyncReturns<string>}
@@ -206,7 +206,7 @@ function createLegacyJsImporter({ resolve }) {
    * @returns {void|Sass.LegacyImporterResult}
    */
   return function (requestUrl, previousUrl, done) {
-    const containingUrl = url.pathToFileURL(previousUrl)
+    const containingUrl = nodeUrl.pathToFileURL(previousUrl)
     const context = /** @type {Sass.CanonicalizeContext} */ ({ containingUrl })
     const canonicalUrl = jsImporter.canonicalize.call(this, requestUrl, context)
 
