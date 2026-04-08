@@ -3,9 +3,9 @@
  * @import * as ChildProcess from 'node:child_process'
  */
 
-const path = require('path')
-const nodeUrl = require('url')
-const childProcess = require('child_process')
+const path = require('node:path')
+const nodeUrl = require('node:url')
+const childProcess = require('node:child_process')
 
 const { isPromiseLike, isPlainObject } = require('./util/helpers.cjs')
 const { fsResolver, includedPathsResolver } = require('./util/resolvers.cjs')
